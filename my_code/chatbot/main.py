@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 
 from chatbot.Position import BookPositions
 from chatbot.my_tools import get_positions
+from chatbot.runnable_with_tools import RunnableWithTools
 from langchain_anthropic import ChatAnthropic
 # from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
 # from langchain_core.output_parsers.string import StrOutputParser
@@ -12,13 +13,16 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, ToolMessage
 
 PROMPT = "> "
+TOOLS = {
+    "get_positions": get_positions
+}
 
 def run():
     load_dotenv()
-    llm = ChatOpenAI(temperature=0, model_name='gpt-4o-mini')
+    # llm = ChatOpenAI(temperature=0, model_name='gpt-4o-mini')
     llm = ChatAnthropic(model="claude-3-5-haiku-20241022", temperature=0)
-    # llm = ChatOllama(model = "llama3.1", temperature = 0, num_thread=8)
-    llm_with_tools = llm.bind_tools([get_positions])
+    # llm = ChatOllama(model = "qwen2.5", temperature = 0, num_thread=8)
+    llm_with_tools = RunnableWithTools(bound=llm.bind_tools([get_positions]), tools=TOOLS)
     history = [SystemMessage(content='You are a Fixed Income market support personnel. Your name is Andy')]
     print("-- ChatBox --")
     print("Enter /q to quit")
