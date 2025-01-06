@@ -1,7 +1,6 @@
 from typing import Optional, Any, Callable
 
-from langchain_community.vectorstores.pgvector import BaseModel
-from pydantic import ConfigDict
+from pydantic import ConfigDict, BaseModel
 
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.runnables import RunnableSerializable, RunnableConfig, Runnable
@@ -17,18 +16,21 @@ class RunnableWithTools(RunnableSerializable[Input, Output]):
     )
 
     def invoke(
-        self, input: Input, config: Optional[RunnableConfig] = None, **kwargs: Any
+        self,
+        input: Input,
+        config: Optional[RunnableConfig] = None,
+        max_depth: Optional[int] = 3,
+        **kwargs: Any
     ) -> Output:
-        max_depth = 3
         depth = 0
         message = None
         while depth < max_depth:
             message = self.bound.invoke(input)
             if isinstance(message, AIMessage) and message.tool_calls and self.tools:
                 text = ''
-                if isinstance(message.content, list) and message.content[0]['text']:
+                if isinstance(message.content, list) and 'text' in message.content[0]:
                     text += message.content[0]['text']
-                elif message.content:
+                elif isinstance(message.content, str):
                     text += message.content
                 # input.append(AIMessage(content=text, **message.additional_kwargs))
                 input.append(message)

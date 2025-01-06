@@ -13,7 +13,7 @@ if __name__ == '__main__':
     load_dotenv()
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 
-    file_path = "BillSummary-Dec-16-2024.pdf"
+    file_path = "sec-hot-topics.pdf"
     loader = PyPDFLoader(file_path)
     docs = loader.load()
     print(len(docs))
