@@ -155,7 +155,7 @@ class BaseChatModel(BaseLanguageModel[BaseMessage], ABC):
         +==================================+===========================================================================================================+
         | `bind_tools`                     | Create ChatModel that can call tools.                                                                     |
         +----------------------------------+-----------------------------------------------------------------------------------------------------------+
-        | `with_structured_output`         | Create wrapper that structures model output using schema.                                                 |
+        | `with_structured_output`         |BaseCache Create wrapper that structures model output using schema.                                                 |
         +----------------------------------+-----------------------------------------------------------------------------------------------------------+
         | `with_retry`                     | Create wrapper that retries model calls on failure.                                                       |
         +----------------------------------+-----------------------------------------------------------------------------------------------------------+
