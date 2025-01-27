@@ -61,4 +61,4 @@ if __name__ == '__main__':
         title="RichBot",
         description="A simple bot that can answer questions on Bowling League by querying Bowling League database.",
         theme='allenai/gradio-theme'
-    ).launch()
+    ).launch(share=True)
