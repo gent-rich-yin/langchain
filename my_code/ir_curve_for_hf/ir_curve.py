@@ -1,5 +1,3 @@
-from dotenv import load_dotenv
-
 from data_load import load_interest_rate_curve, supported_currencies
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import AIMessage
@@ -8,7 +6,6 @@ from langgraph.prebuilt import create_react_agent
 import gradio as gr
 
 if __name__ == '__main__':
-    load_dotenv()
     model = ChatAnthropic(model="claude-3-5-haiku-20241022", temperature=0)
 
     tools = [load_interest_rate_curve]
