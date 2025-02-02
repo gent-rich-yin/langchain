@@ -5,6 +5,7 @@ from typing import TypedDict, Literal, List, Optional, Annotated
 from zipfile import ZipFile
 from xml.etree import ElementTree
 import requests
+import os
 
 from langchain_core.tools import tool
 
@@ -48,7 +49,7 @@ def load_interest_rate_curve(date_obj: date, currency: Literal['USD', 'JPY', 'EU
     Returns None if the interest rates cannot be found
     """
     try:
-        url = f'https://rfr.ihsmarkit.com/InterestRates_{currency}_{date_obj.strftime('%Y%m%d')}.zip?email=yguobin@hotmail.com'
+        url = f'https://rfr.ihsmarkit.com/InterestRates_{currency}_{date_obj.strftime('%Y%m%d')}.zip?email={os.environ['ir_curve_email']}'
         req = requests.get(url)
         zip = ZipFile(BytesIO(req.content))
         file = f'InterestRates_{currency}_{date_obj.strftime('%Y%m%d')}.xml'
